@@ -108,7 +108,6 @@ public class Store {
                     }
                     confirming = false;
                 }
-                shopping = false;
             } catch (NullPointerException e) {
                 System.out.println("Blank/Invalid ID! No selection.");
             } catch (Exception e) {
@@ -118,29 +117,35 @@ public class Store {
     }
 
     public static void displayCart(ArrayList<Product> cart, Scanner scanner, double totalAmount) {
-        System.out.println();
-
-        // Displays objects in cart via table with a total amount below.
-        printColumn();
-        for (Product i : cart) {
-            System.out.printf("|%s|\n+%s+\n", i, "-".repeat(i.toString().length()));
-            totalAmount += i.getPrice();
-        }
-        System.out.printf("| Total: %-8.2f |\n+%s+\n", totalAmount, "-".repeat(17));
-
-        // Menu similar to displayProducts - exit, enter a matching ID to remove item from cart, or check out.
         String userChoice;
-        boolean shopping = true;
+        boolean shopping = !cart.isEmpty();
+        if (cart.isEmpty()) {
+            System.out.println("Cart is empty! Returning to main menu.");
+            return;
+        }
         while (shopping) {
+            // Displays objects in cart via table with a total amount below.
+            totalAmount = 0;
+            printColumn();
+            for (Product i : cart) {
+                System.out.printf("|%s|\n+%s+\n", i, "-".repeat(i.toString().length()));
+                totalAmount += i.getPrice();
+            }
+            System.out.printf("| Total: %-8.2f |\n+%s+\n", totalAmount, "-".repeat(17));
+
+
+            // Menu similar to displayProducts - exit, enter a matching ID to remove item from cart, or check out.
             System.out.println("\n" + "-".repeat(60));
             System.out.println("Enter 'C' to check out \nEnter the ID of an item you would like to remove.\nEnter 'X' to go back.");
             System.out.println("-".repeat(60));
             userChoice = scanner.nextLine();
+
             if (userChoice.equalsIgnoreCase("X"))
                 shopping = false;
-            if (userChoice.equalsIgnoreCase("C"))
+            if (userChoice.equalsIgnoreCase("C")) {
                 checkOut(cart, totalAmount, scanner);
-            else {
+                shopping = false;
+            } else {
                 try {
                     Product selectedProduct = findProductById(userChoice, cart);
                     boolean confirming = true;
@@ -150,12 +155,11 @@ public class Store {
                         System.out.println("\nWould you like to remove this item from your cart? (Y)es/(N)o\n" + "-".repeat(60));
                         userChoice = scanner.nextLine();
                         if (userChoice.equalsIgnoreCase("y")) {
+                            totalAmount -= selectedProduct.getPrice();
                             cart.remove(selectedProduct);
-                            cart.add(selectedProduct);
                         }
                         confirming = false;
                     }
-                    shopping = false;
                 } catch (NullPointerException e) {
                     System.out.println("Blank/Invalid ID! No selection.");
                 } catch (Exception e) {
@@ -164,31 +168,28 @@ public class Store {
             }
         }
     }
+
     public static void checkOut(ArrayList<Product> cart, double totalAmount, Scanner scanner) {
-        // No items = no total = redundant screen - instantly returns with nothing in the cart.
-        if (totalAmount == 0) {
-            System.out.println("\n" + "-".repeat(60));
-            System.out.println("Nothing to check out! Returning to cart.");
-            return;
-        }
+
         String border = "+" + "-".repeat(52) + "+";
-
-
         // Menu that loops with updating BalancePaid/Due, ends when user pays TotalAmount or over.
         double balancePaid = 0;
         boolean isCheckOut = true;
         while (isCheckOut) {
             double balanceDue = totalAmount - balancePaid;
+            if (balanceDue > 0) {
+                System.out.println(border);
+                System.out.printf("| %-24s | Total Price: %-10.2f |\n", "Order Summary", totalAmount);
+                System.out.println(border);
+                System.out.printf("| Balance Paid: %-10.2f | Balance Due: %-10.2f |\n", balancePaid, balanceDue);
+                System.out.println(border);
+            }
 
-            System.out.println(border);
-            System.out.printf("| %-24s | Total Price: %-10.2f |\n", "Order Summary", totalAmount);
-            System.out.println(border);
-            System.out.printf("| Balance Paid: %-10.2f | Balance Due: %-10.2f |\n", balancePaid, balanceDue);
-            System.out.println(border);
             if (balanceDue <= 0) {
                 cart.clear();
                 System.out.printf("Success! Thank you for your patronage!\nChange due: $%.2f\n", Math.abs(balanceDue));
                 isCheckOut = false;
+                return;
             }
             System.out.print("Please enter a balance to pay: ");
             try {
@@ -198,6 +199,7 @@ public class Store {
             }
         }
     }
+
     public static Product findProductById(String id, ArrayList<Product> inventory) {
 
         // Iterate through an inventory, matching unique ID. Returns ID if found, nothing if not.
