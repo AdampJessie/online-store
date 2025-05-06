@@ -35,14 +35,10 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Future Work
 
-Outline potential future enhancements or functionalities you might consider adding:
-
 - Writing to CSV file, saving personal profiles.
 - Improvement of error handling, improvement of performance.
 
 ## Resources
-
-List resources such as tutorials, articles, or documentation that helped you during the project.
 
 - [Raymond Maroun's GitHub](https://github.com/RayMaroun/yearup-spring-section-10-2025/tree/master/pluralsight) - Vital Information
 - [Previous Java Project](https://github.com/AdampJessie/FinancialTracker) - Very Similar Project, recently completed
@@ -54,8 +50,6 @@ List resources such as tutorials, articles, or documentation that helped you dur
 - **Raymond Maroun** - Foundational Skeleton Code.
 
 ## Thanks
-
-Express gratitude towards those who provided help, guidance, or resources:
 
 - Thank you to instructor Raymond Maroun for unending support and guidance.
 - A special thanks to all individuals who view/use this project!
