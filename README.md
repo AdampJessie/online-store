@@ -31,7 +31,7 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Demo
 
-![Full Demonstration](idea64_efu4CIzi1Q.gif)
+![Full Demonstration](store-demo.gif)
 
 ## Future Work
 
