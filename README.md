@@ -1,10 +1,21 @@
-# Project Title
+# Digital Emporium
 
 ## Description of the Project
 
 Welcome to the Digital Emporium! This program reads products from a CSV input file.
 These products populate the store, where users can view available products, place them in a virtual cart,
 and then check out with virtual money!
+
+## User Stories
+
+- As a store owner, I'd like to load products from a messy file into a properly formatted inventory list so that customers can see all of my products in a stylish fashion
+
+- As a store owner, I'd like customers to enter a product ID to add/remove from cart so that there is no confusion surrounding which products are which.
+
+- As a customer, I'd like to view my cart with a total amount attached, so that I know the full price of my purchase.
+
+- As a store owner, I'd like customers to check out once they are finished shopping, so that I can make money and customers can receive the products they want.
+
 
 
 ## Setup
